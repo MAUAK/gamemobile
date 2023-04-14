@@ -13,16 +13,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.math.Rectangle;
 
 import java.util.Random;
 
-import javax.swing.ViewportLayout;
-
-import jdk.nashorn.internal.codegen.CompilerConstants;
 
 public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -31,7 +27,6 @@ public class MyGdxGame extends ApplicationAdapter {
 	private Texture canoBaixo;
 	private Texture canoTopo;
 	private Texture gameOver;
-	Texture img;
 
 	private ShapeRenderer shapeRenderer;
 	private Circle circuloPassaro;
