@@ -16,10 +16,8 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.badlogic.gdx.math.Rectangle;
 
-import java.awt.Rectangle;
-import java.awt.font.ShapeGraphicAttribute;
-import java.security.PrivateKey;
 import java.util.Random;
 
 import javax.swing.ViewportLayout;
@@ -132,7 +130,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		shapeRenderer = new ShapeRenderer();
 		circuloPassaro = new Circle();
-		retanguloCanoBaixo = new Rectangle();
+		retanguloCanoBaixo = new com.badlogic.gdx.math.Rectangle();
 		retanguloCanoCima = new Rectangle();
 
 		somVoando = Gdx.audio.newSound(Gdx.files.internal("som_asa.wav"));
@@ -197,26 +195,26 @@ public class MyGdxGame extends ApplicationAdapter {
 				passaros[0].getWidth() /2
 		);
 
-		//retanguloCanoBaixo.set(
-				//posicaoCanoHorizontal,
-				//alturaDispositivo / 2 -canoBaixo.getHeight() - espacoEntreCanos / 2 + posicaoCanoHorizontal,
-				//canoBaixo.getWidth(),canoBaixo.getHeight()
-		//);
-		//retanguloCanoCima.set(
-				//posicaoCanoHorizontal, alturaDispositivo / 2 + espacoEntreCanos / 2 + posicaoVertical,
-				//canoTopo.getHeight(), canoTopo.getHeight()
-		//);
+		retanguloCanoBaixo.set(
+				posicaoCanoHorizontal,
+				alturaDispositivo / 2 -canoBaixo.getHeight() - espacoEntreCanos / 2 + posicaoCanoHorizontal,
+				canoBaixo.getWidth(),canoBaixo.getHeight()
+		);
 
-		//boolean colidiuCanoCima = Intersector.overlaps(circuloPassaro, retanguloCanoCima);
-		//boolean colidiuCanoBaixo = Intersector.overlaps(circuloPassaro, retanguloCanoBaixo);
+		retanguloCanoCima.set(
+				posicaoCanoHorizontal, alturaDispositivo / 2 + espacoEntreCanos / 2 + posicaoVertical,
+				canoTopo.getHeight(), canoTopo.getHeight()
+		);
 
-		//if(colidiuCanoCima || colidiuCanoBaixo){
-			//if(estadoJogo == 1){
-				//somColisao.play();
-				//estadoJogo = 2;
-			//}
-		//}
+		boolean colidiuCanoCima = Intersector.overlaps(circuloPassaro, retanguloCanoCima);
+		boolean colidiuCanoBaixo = Intersector.overlaps(circuloPassaro, retanguloCanoBaixo);
 
+		if(colidiuCanoCima || colidiuCanoBaixo){
+			if(estadoJogo == 1){
+				somColisao.play();
+				estadoJogo = 2;
+			}
+		}
 	}
 
 	private void desenharTexturas(){
