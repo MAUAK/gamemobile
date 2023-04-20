@@ -1,5 +1,5 @@
 # FlappyBird_Mobile
-## Versão: 1.2 
+## Versão: 1.0
 ## Status do Projeto: ✔️ Concluído
 
 ## Tópicos
