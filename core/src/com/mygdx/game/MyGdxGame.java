@@ -219,6 +219,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 		batch.end();
 	}
+	//asmndnoiasd
 
 	private void validarPontos()
 	{
