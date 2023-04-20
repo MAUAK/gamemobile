@@ -128,7 +128,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		camera.position.set(VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2, 0);
 		viewport = new StretchViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, camera);
 	}
-	//eu sou alex
+
 	private void verificarEstadoJogo() {
 		boolean toqueTela = Gdx.input.justTouched();
 		if (estadoJogo == 0) {
@@ -143,7 +143,7 @@ public class MyGdxGame extends ApplicationAdapter {
 				gravidade = -15;
 				somVoando.play();
 			}
-			posicaoCanoVertical -= Gdx.graphics.getDeltaTime() * 200;
+			posicaoCanoHorizontal -= Gdx.graphics.getDeltaTime() * 200;
 			if (posicaoCanoHorizontal < -canoTopo.getWidth()) {
 				posicaoCanoHorizontal = larguraDispositivo;
 				posicaoCanoVertical = random.nextInt(400) - 200;
@@ -159,18 +159,18 @@ public class MyGdxGame extends ApplicationAdapter {
 				preferencias.flush();
 			}
 			posicaoHorizontalPassaro -= Gdx.graphics.getDeltaTime() * 500;
-		}
 
-		if (toqueTela) {
-			estadoJogo = 0;
-			pontos = 0;
-			gravidade = 0;
-			posicaoHorizontalPassaro = 0;
-			posicaoInicialVerticalPassaro = alturaDispositivo / 2;
-			posicaoCanoHorizontal = larguraDispositivo;
+
+			if (toqueTela) {
+				estadoJogo = 0;
+				pontos = 0;
+				gravidade = 0;
+				posicaoHorizontalPassaro = 0;
+				posicaoInicialVerticalPassaro = alturaDispositivo / 2;
+				posicaoCanoHorizontal = larguraDispositivo;
+			}
 		}
 	}
-
 	private void detectarColisoes()
 	{
 		circuloPassaro.set(
@@ -204,7 +204,9 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch.draw(fundo, 0 , 0 , larguraDispositivo, alturaDispositivo);
 		batch.draw(passaros[(int) variacao],
 				50 + posicaoHorizontalPassaro,posicaoInicialVerticalPassaro);
-		batch.draw(canoBaixo, posicaoCanoHorizontal, alturaDispositivo / 2 - canoBaixo.getHeight() - espacoEntreCanos / 2 + posicaoCanoVertical);
+		batch.draw(canoBaixo,
+				posicaoCanoHorizontal,
+				alturaDispositivo / 2 - canoBaixo.getHeight() - espacoEntreCanos / 2 + posicaoCanoVertical);
 		batch.draw(canoTopo, posicaoCanoHorizontal, alturaDispositivo / 2 + espacoEntreCanos / 2 + posicaoCanoVertical);
 		textoPontucao.draw(batch, String.valueOf(pontos), larguraDispositivo / 2, alturaDispositivo -110);
 
