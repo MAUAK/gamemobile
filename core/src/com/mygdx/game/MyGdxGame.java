@@ -102,7 +102,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		textoPontucao = new BitmapFont();
 		textoPontucao.setColor(com.badlogic.gdx.graphics.Color.WHITE);
-		textoPontucao.getData().setScale(10);
+		textoPontucao.getData().setScale(5);
 
 		textoReiniciar = new BitmapFont();
 		textoReiniciar.setColor(com.badlogic.gdx.graphics.Color.GREEN);
@@ -214,7 +214,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		{
 			batch.draw(gameOver, larguraDispositivo / 2 - gameOver.getWidth()/2, alturaDispositivo /2);
 			textoReiniciar.draw(batch, "Toque para reiniciar!", larguraDispositivo/2 -140, alturaDispositivo /2 - gameOver.getHeight()/2);
-			textoMelhorPontuacao.draw(batch,"Seu record Ã©: "+ pontuacaoMaxima+"pontos", larguraDispositivo/2 -140,alturaDispositivo/2 - gameOver.getHeight());
+			textoMelhorPontuacao.draw(batch,"Seu record é: "+ pontuacaoMaxima+" pontos", larguraDispositivo/2 -140,alturaDispositivo/2 - gameOver.getHeight());
 
 		}
 		batch.end();
