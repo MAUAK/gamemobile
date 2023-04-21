@@ -33,32 +33,30 @@
 ...
 
 ## Descrição do projeto
-Aplicativo que tira foto e informa a localização do celular em latitude e longitude.
+Aplicativo em que o jogador tem que clicar na tela para o pássaro voar e desviar dos canos.
 
 ## Funcionalidades ⚙️
-✔️ Tira foto pela camêra.
+✔️ Pássaro voa.
 
-✔️ Informa a localização pelo GPS em tempo real (latitude e longitude).
+✔️ Pontuação aumenta conforme for passando pelos canos.
 
 ## Distribuição
-https://github.com/MAUAK/mobile_foto_2303
+https://github.com/MAUAK/gamemobile
 
 ## Pré-requisitos ⚠️    
 Versão miníma do Android - 8.0; 
 
 SDK - Pixel 2; 
 
-Aparelho utilizado para testes - Samsung M12;
-
-O aparelho deve ter uma camêra funcionando e um sistema de GPS no celular;
+O aparelho deve ter o touch funcionando;
 
 ## Como rodar a aplicação 
-O usúario deverá abaixar e abrir o aplicativo, ativas a permissão do gps e da camêra. Após passar a tela de splash, poderá clicar no botão "foto" e tirar uma foto com a camêra ou clicar no botão "GPS" para verificar a localização dele.
+O usúario deverá baixar e abrir o aplicativo, e clicar na tela para o pássaro voar. O objetivo é desviar do máximo de canos que puder.
 
 ## Testes realizados
-![1](https://user-images.githubusercontent.com/83432308/228994933-e8f29d35-55ff-442f-a458-a00b2c89b8c5.png)
-![2](https://user-images.githubusercontent.com/83432308/228994965-a0654cea-4233-4e20-945b-075b3ea908f8.png)
-![3](https://user-images.githubusercontent.com/83432308/228994974-d43df8ec-beae-4f31-88f5-89ae76b289ee.png)
+![teste1](https://user-images.githubusercontent.com/83432308/233510993-c6e981fe-eee7-4937-9db3-6b96e6762ae0.png)
+![teste2](https://user-images.githubusercontent.com/83432308/233511114-f42d2dc9-a4b6-45dd-aa64-f2752aa1f561.png)
+![teste3](https://user-images.githubusercontent.com/83432308/233511119-f4b8f348-7159-4109-8643-b64a55560cf9.png)
 
 
 ## Banco de Dados 🗂️
@@ -82,4 +80,4 @@ Kauam Silva Batista
 ## Licença
 The MIT License (MIT)
 
-## Copyright ©️ 2023 - mobile_foto_geo
+## Copyright ©️ 2023 - FlappyBird_Mobile
