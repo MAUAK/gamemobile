@@ -19,6 +19,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import java.util.Random;
 
 public class MyGdxGame extends ApplicationAdapter {
+	//Criando Variáveis
 	private SpriteBatch batch;
 	private Texture[] passaros;
 	private Texture fundo;
@@ -61,13 +62,14 @@ public class MyGdxGame extends ApplicationAdapter {
 	private final float VIRTUAL_WIDTH = 720;
 	private final float VIRTUAL_HEIGHT = 1280;
 
-
+	//Criando método para criar as texturas e objetos
 	@Override
 	public void create() {
 		inicializarTexturas();
 		inicializaObjetos();
 	}
 
+	//Criando método para iniciar os métodos de verificar estado do jogo, validar pontos, desenhar texturas e detectar colisões
 	@Override
 	public void render() {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
@@ -78,6 +80,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		detectarColisoes();
 	}
 
+	//Inicializando as texturas do pássaro, do fundo, dos canos e do game over
 	private void inicializarTexturas() {
 		passaros = new Texture[3];
 		passaros[0] = new Texture("passaro1.png");
@@ -90,47 +93,59 @@ public class MyGdxGame extends ApplicationAdapter {
 		gameOver = new Texture("game_over.png");
 	}
 
+	//Iniciar os objetos do jogo
 	private void inicializaObjetos() {
 		batch = new SpriteBatch();
 		random = new Random();
 
+		//Declarando a posição dis canos e dos pássaros
 		larguraDispositivo = VIRTUAL_WIDTH;
 		alturaDispositivo = VIRTUAL_HEIGHT;
 		posicaoInicialVerticalPassaro = alturaDispositivo / 2;
 		posicaoCanoHorizontal = larguraDispositivo;
 		espacoEntreCanos = 350;
 
+		//criando o texto da pontuação na tela
 		textoPontucao = new BitmapFont();
 		textoPontucao.setColor(com.badlogic.gdx.graphics.Color.WHITE);
 		textoPontucao.getData().setScale(10);
 
+		//Criando o texto de reiniciar na tela
 		textoReiniciar = new BitmapFont();
 		textoReiniciar.setColor(com.badlogic.gdx.graphics.Color.GREEN);
 		textoReiniciar.getData().setScale(2);
 
+		//Criando o texto de melhor pontuação na tela
 		textoMelhorPontuacao = new BitmapFont();
 		textoMelhorPontuacao.setColor(com.badlogic.gdx.graphics.Color.RED);
 		textoMelhorPontuacao.getData().setScale(2);
 
+		//Criando os colisores do pássaro e do cnao
 		shapeRenderer = new ShapeRenderer();
 		circuloPassaro = new Circle();
 		retanguloCanoBaixo = new Rectangle();
 		retanguloCanoCima = new Rectangle();
 
+		//Criando sons do jogo
 		somVoando = Gdx.audio.newSound(Gdx.files.internal("som_asa.wav"));
 		somColisao = Gdx.audio.newSound(Gdx.files.internal("som_batida.wav"));
 		somPontuacao = Gdx.audio.newSound(Gdx.files.internal("som_pontos.wav"));
 
+		//Criando as preferências da pontuação máxima
 		preferencias = Gdx.app.getPreferences("FlappyBird");
 		pontuacaoMaxima = preferencias.getInteger("pontuacaoMaxima", 0);
 
+		//Criando a câmera
 		camera = new OrthographicCamera();
 		camera.position.set(VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2, 0);
 		viewport = new StretchViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, camera);
 	}
 
+	//Criando um método para verificar o estado do jogo
 	private void verificarEstadoJogo() {
+		//Variável para o toque na tela
 		boolean toqueTela = Gdx.input.justTouched();
+		//Verificando se o estado do jogo está antes de comçar, se alguém tocar na tela, o pássaro omeça a voar e solta o som
 		if (estadoJogo == 0) {
 			if (toqueTela) {
 				gravidade = -15;
@@ -138,11 +153,13 @@ public class MyGdxGame extends ApplicationAdapter {
 				somVoando.play();
 			}
 
+			//Verificando se o estado do jogo for com o pássaro voando
 		} else if (estadoJogo == 1) {
 			if (toqueTela) {
 				gravidade = -15;
 				somVoando.play();
 			}
+			//Se a posição do cano está no topo, rederiza a próxima
 			posicaoCanoHorizontal -= Gdx.graphics.getDeltaTime() * 200;
 			if (posicaoCanoHorizontal < -canoTopo.getWidth()) {
 				posicaoCanoHorizontal = larguraDispositivo;
@@ -152,6 +169,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			if (posicaoInicialVerticalPassaro > 0 || toqueTela)
 				posicaoInicialVerticalPassaro = posicaoInicialVerticalPassaro - gravidade;
 			gravidade++;
+			//Se o estado do jogo for com ele morto, aprece a pontuação
 		} else if (estadoJogo == 2) {
 			if (pontos > pontuacaoMaxima) {
 				pontuacaoMaxima = pontos;
@@ -161,6 +179,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			posicaoHorizontalPassaro -= Gdx.graphics.getDeltaTime() * 500;
 
 
+			//Se tocar na tela a pontuação máxima
 			if (toqueTela) {
 				estadoJogo = 0;
 				pontos = 0;
@@ -171,17 +190,21 @@ public class MyGdxGame extends ApplicationAdapter {
 			}
 		}
 	}
+	//Método de detectar colisões
 	private void detectarColisoes()
 	{
+		//Declarando a colisão do pássaro
 		circuloPassaro.set(
 				50 + posicaoHorizontalPassaro + passaros[0].getWidth() / 2,
 				posicaoInicialVerticalPassaro + passaros[0].getHeight() / 2,
 				passaros[0].getWidth() / 2);
 
+		//Declarando a colisão do cano baixo
 		retanguloCanoBaixo.set(
 				posicaoCanoHorizontal, alturaDispositivo /2 - canoBaixo.getHeight() - espacoEntreCanos / 2 + posicaoCanoVertical,
 				canoBaixo.getWidth(), canoBaixo.getHeight());
 
+		//Declarando a colisão do cano de cima
 		retanguloCanoCima.set(
 				posicaoCanoHorizontal, alturaDispositivo / 2 + espacoEntreCanos / 2 + posicaoCanoVertical,
 				canoTopo.getWidth(), canoTopo.getHeight());
@@ -197,6 +220,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 	}
 
+	//Método para desenhar as texturas
 	private void desenharTexturas()
 	{
 		batch.setProjectionMatrix(camera.combined);
@@ -220,6 +244,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch.end();
 	}
 
+	//Método para validar os pontos assim que ele passar dos canos
 	private void validarPontos()
 	{
 		if(posicaoCanoHorizontal < 50-passaros[0].getWidth())
@@ -237,6 +262,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			variacao = 0;
 	}
 
+	//Recalculando o tamanho da tela
 	@Override
 	public void resize(int width, int height)
 	{viewport.update(width,height);}
