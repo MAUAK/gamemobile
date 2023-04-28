@@ -45,6 +45,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	private float posicaoCanoVertical;
 	private float posicaoCoinVertical;
 	private float posicaoCoinHorizontal;
+	private float posicaoCoin2Vertical;
+	private float posicaoCoin2Horizontal;
 	private float espacoEntreCanos;
 	private Random random;
 	private int pontos = 0;
