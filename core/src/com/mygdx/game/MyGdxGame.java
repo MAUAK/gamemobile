@@ -27,6 +27,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	private Texture gameOver;
 	private Texture logo;
 	private Texture coin;
+	private Texture coin2;
 	private Texture coinatual;
 
 	private ShapeRenderer shapeRenderer;
@@ -48,7 +49,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	private Random random;
 	private int pontos = 0;
 	private int valorMoeda = 5;
-	private int valorMoedaOuro = 0;
+	private int valorCoin2 = 10;
 	private int pontuacaoMaxima = 0;
 	private boolean passouCano = false;
 	private int estadoJogo = 0;
@@ -100,6 +101,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		gameOver = new Texture("game_over.png");
 		logo = new Texture("logoMario.png");
 		coin = new Texture("coin.png");
+		coin2 = new Texture("coin2.png");
 		coinatual = coin;
 	}
 
@@ -220,8 +222,12 @@ public class MyGdxGame extends ApplicationAdapter {
 		if(colidiuCoin == true){
 			if(coinatual == coin){
 				pontos+= valorMoeda;
-				//else pontos+=valorMoeda2;
+
 				posicaoCoinVertical = alturaDispositivo * 2;
+			}
+			else
+			{
+				pontos += valorCoin2;
 			}
 		}
 
@@ -297,7 +303,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		int randomNewCoin = random.nextInt(100);
 		if (randomNewCoin < 30) {
-			//coinatual = coin2;
+			coinatual = coin2;
 
 		} else {
 			coinatual = coin;
