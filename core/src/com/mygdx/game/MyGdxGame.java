@@ -19,6 +19,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import java.util.Random;
 
 public class MyGdxGame extends ApplicationAdapter {
+	//Criando variáveis de textura
 	private SpriteBatch batch;
 	private Texture[] passaros;
 	private Texture fundo;
@@ -26,16 +27,18 @@ public class MyGdxGame extends ApplicationAdapter {
 	private Texture canoTopo;
 	private Texture gameOver;
 	private Texture logo;
-	private Texture coin;
+	private Texture coin1;
 	private Texture coin2;
 	private Texture coinatual;
 
+	//Criando variáveis de colisão
 	private ShapeRenderer shapeRenderer;
 	private Circle circuloPassaro;
-	private Circle circuloCoin;
+	private Circle circuloCoin1;
 	private Rectangle retanguloCanoCima;
 	private Rectangle retanguloCanoBaixo;
 
+	//Criando variáveis de posições
 	private float larguraDispositivo;
 	private float alturaDispositivo;
 	private float variacao = 0;
@@ -43,19 +46,21 @@ public class MyGdxGame extends ApplicationAdapter {
 	private float posicaoInicialVerticalPassaro = 0;
 	private float posicaoCanoHorizontal;
 	private float posicaoCanoVertical;
-	private float posicaoCoinVertical;
-	private float posicaoCoinHorizontal;
-	private float posicaoCoin2Vertical;
-	private float posicaoCoin2Horizontal;
+	private float posicaoCoin1Vertical;
+	private float posicaoCoin1Horizontal;
+
+	//Criando variáves do coletável e do pássaro
+	private float escalaCoin = 1f;
 	private float espacoEntreCanos;
 	private Random random;
 	private int pontos = 0;
-	private int valorMoeda = 5;
-	private int valorCoin2 = 10;
+	private int valorCoin1 = 10;
+	private int valorCoin2 = 5;
 	private int pontuacaoMaxima = 0;
 	private boolean passouCano = false;
 	private int estadoJogo = 0;
 	private float posicaoHorizontalPassaro = 0;
+
 
 	BitmapFont textoPontucao;
 	BitmapFont textoReiniciar;
@@ -65,7 +70,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	Sound somVoando;
 	Sound somColisao;
 	Sound somPontuacao;
-	Sound moeda;
+	Sound somCoin;
 
 	Preferences preferencias;
 
@@ -102,9 +107,9 @@ public class MyGdxGame extends ApplicationAdapter {
 		canoTopo = new Texture("cano_topo_maior.png");
 		gameOver = new Texture("game_over.png");
 		logo = new Texture("logoMario.png");
-		coin = new Texture("coin.png");
+		coin1 = new Texture("coin.png");
 		coin2 = new Texture("coin2.png");
-		coinatual = coin;
+		//coinatual = coin1;
 		coinatual = coin2;
 	}
 
@@ -116,10 +121,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		alturaDispositivo = VIRTUAL_HEIGHT;
 		posicaoInicialVerticalPassaro = alturaDispositivo / 2;
 		posicaoCanoHorizontal = larguraDispositivo;
-		posicaoCoinHorizontal = larguraDispositivo / 2;
-		posicaoCoinVertical = posicaoCoinHorizontal + larguraDispositivo / 2;
-		posicaoCoin2Horizontal = larguraDispositivo / 2;
-		posicaoCoin2Vertical = posicaoCoin2Horizontal + larguraDispositivo / 2;
+		posicaoCoin1Horizontal = posicaoCoin1Horizontal + larguraDispositivo / 2;
+		posicaoCoin1Vertical = alturaDispositivo/2;
 		espacoEntreCanos = 350;
 
 		textoPontucao = new BitmapFont();
@@ -138,11 +141,12 @@ public class MyGdxGame extends ApplicationAdapter {
 		circuloPassaro = new Circle();
 		retanguloCanoBaixo = new Rectangle();
 		retanguloCanoCima = new Rectangle();
-		circuloCoin = new Circle();
+		circuloCoin1 = new Circle();
 
 		somVoando = Gdx.audio.newSound(Gdx.files.internal("som_asa.wav"));
 		somColisao = Gdx.audio.newSound(Gdx.files.internal("som_batida.wav"));
 		somPontuacao = Gdx.audio.newSound(Gdx.files.internal("som_pontos.wav"));
+		somCoin = Gdx.audio.newSound(Gdx.files.internal("smw_coin.wav"));
 
 		preferencias = Gdx.app.getPreferences("FlappyBird");
 		pontuacaoMaxima = preferencias.getInteger("pontuacaoMaxima", 0);
@@ -166,7 +170,7 @@ public class MyGdxGame extends ApplicationAdapter {
 				gravidade = -15;
 				somVoando.play();
 			}
-			posicaoCoinHorizontal -= Gdx.graphics.getDeltaTime() * 200;
+			posicaoCoin1Horizontal -= Gdx.graphics.getDeltaTime() * 200;
 			posicaoCanoHorizontal -= Gdx.graphics.getDeltaTime() * 200;
 
 			if (posicaoCanoHorizontal < -canoTopo.getWidth()) {
@@ -174,7 +178,7 @@ public class MyGdxGame extends ApplicationAdapter {
 				posicaoCanoVertical = random.nextInt(400) - 200;
 				passouCano = false;
 			}
-			if (posicaoCoinHorizontal <- coinatual.getWidth() / 2 )
+			if (posicaoCoin1Horizontal <- coinatual.getWidth() / 2 * escalaCoin)
 			{
 				resetaCoin();
 			}
@@ -216,24 +220,20 @@ public class MyGdxGame extends ApplicationAdapter {
 				posicaoCanoHorizontal, alturaDispositivo / 2 + espacoEntreCanos / 2 + posicaoCanoVertical,
 				canoTopo.getWidth(), canoTopo.getHeight());
 
-		circuloCoin.set(posicaoCoinHorizontal - (coinatual.getWidth()),
-		posicaoCoinVertical - (coinatual.getHeight()),
-		coinatual.getWidth() / 2);
+		circuloCoin1.set(posicaoCoin1Horizontal - ((coinatual.getWidth() * escalaCoin) / 2),
+		posicaoCoin1Vertical - ((coinatual.getHeight() * 2) / 2),
+				(coinatual.getWidth() * escalaCoin) / 2);
 
 		boolean colidiuCanoCima = Intersector.overlaps(circuloPassaro, retanguloCanoCima);
 		boolean colidiuCanoBaixo = Intersector.overlaps(circuloPassaro, retanguloCanoBaixo);
-		boolean colidiuCoin = Intersector.overlaps(circuloPassaro, circuloCoin);
+		boolean colidiuCoin1 = Intersector.overlaps(circuloPassaro, circuloCoin1);
 
-		if(colidiuCoin == true){
-			if(coinatual == coin){
-				pontos+= valorMoeda;
-
-				posicaoCoinVertical = alturaDispositivo * 2;
-			}
-			else
-			{
-				pontos += valorCoin2;
-			}
+		if(colidiuCoin1 == true){
+			if(coinatual == coin1) pontos += valorCoin1;
+			else pontos += valorCoin2;
+//
+			posicaoCoin1Vertical = alturaDispositivo * 2;
+			somCoin.play();
 		}
 
 		if (colidiuCanoCima || colidiuCanoBaixo) {
@@ -270,13 +270,11 @@ public class MyGdxGame extends ApplicationAdapter {
 			textoMelhorPontuacao.draw(batch,"Seu record é: "+ pontuacaoMaxima+" pontos", larguraDispositivo/2 -140,alturaDispositivo/2 - gameOver.getHeight());
 		}
 		if (estadoJogo == 1){
-			batch.draw(coinatual, posicaoCoinHorizontal - (coinatual.getWidth()),
-					posicaoCoinVertical - (coinatual.getWidth()), coinatual.getWidth(),
-					coinatual.getHeight());
+			batch.draw(coinatual, posicaoCoin1Horizontal - (coinatual.getWidth() * escalaCoin),
+					posicaoCoin1Vertical - (coinatual.getWidth() * escalaCoin),
+					coinatual.getWidth() * escalaCoin,
+					coinatual.getHeight() *escalaCoin);
 		}
-
-
-
 		batch.end();
 	}
 	//asmndnoiasd
@@ -301,17 +299,16 @@ public class MyGdxGame extends ApplicationAdapter {
 	}
 
 	private void resetaCoin() {
-		posicaoCoinHorizontal = posicaoCanoHorizontal + canoBaixo.getWidth() + coinatual.getWidth() +
-				random.nextInt((int) (larguraDispositivo - (coinatual.getWidth())));
-		posicaoCoinVertical = coinatual.getHeight() / 2 + random.nextInt((int)
+		posicaoCoin1Horizontal = posicaoCanoHorizontal + canoBaixo.getWidth() + coinatual.getWidth() +
+				random.nextInt((int) (larguraDispositivo - (coinatual.getWidth() * escalaCoin)));
+		posicaoCoin1Vertical = coinatual.getHeight() / 2 + random.nextInt((int)
 				alturaDispositivo - coinatual.getHeight() / 2);
 
 		int randomNewCoin = random.nextInt(100);
 		if (randomNewCoin < 30) {
 			coinatual = coin2;
-
 		} else {
-			coinatual = coin;
+			coinatual = coin1;
 		}
 	}
 
