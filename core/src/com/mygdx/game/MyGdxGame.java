@@ -105,6 +105,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		coin = new Texture("coin.png");
 		coin2 = new Texture("coin2.png");
 		coinatual = coin;
+		coinatual = coin2;
 	}
 
 	private void inicializaObjetos() {
@@ -117,6 +118,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		posicaoCanoHorizontal = larguraDispositivo;
 		posicaoCoinHorizontal = larguraDispositivo / 2;
 		posicaoCoinVertical = posicaoCoinHorizontal + larguraDispositivo / 2;
+		posicaoCoin2Horizontal = larguraDispositivo / 2;
+		posicaoCoin2Vertical = posicaoCoin2Horizontal + larguraDispositivo / 2;
 		espacoEntreCanos = 350;
 
 		textoPontucao = new BitmapFont();
