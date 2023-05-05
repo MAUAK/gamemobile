@@ -51,6 +51,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	//Criando variáves do coletável e do pássaro
 	private float escalaCoin = 1f;
+	private float escalaMario = 1f;
 	private float espacoEntreCanos;
 	private Random random;
 	private int pontos = 0;
@@ -61,12 +62,12 @@ public class MyGdxGame extends ApplicationAdapter {
 	private int estadoJogo = 0;
 	private float posicaoHorizontalPassaro = 0;
 
-
+	//Criando variável de texto
 	BitmapFont textoPontucao;
 	BitmapFont textoReiniciar;
 	BitmapFont textoMelhorPontuacao;
 
-
+	//Criando variável de som
 	Sound somVoando;
 	Sound somColisao;
 	Sound somPontuacao;
@@ -74,18 +75,20 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	Preferences preferencias;
 
+	//Criando variáveis para as dimensões da tela
 	private OrthographicCamera camera;
 	private Viewport viewport;
 	private final float VIRTUAL_WIDTH = 720;
 	private final float VIRTUAL_HEIGHT = 1280;
 
-
+	//reescrevendo o método para iniciar as texturas e objetos
 	@Override
 	public void create() {
 		inicializarTexturas();
 		inicializaObjetos();
 	}
 
+	//reescrevendo o método para iniciar os métodos restantes
 	@Override
 	public void render() {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
@@ -96,6 +99,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		detectarColisoes();
 	}
 
+	//Criando método para iniciar as texturas do pássaro, fundo, cano, tela de fim de jogo e moedas
 	private void inicializarTexturas() {
 		passaros = new Texture[3];
 		passaros[0] = new Texture("mario1.png");
@@ -113,10 +117,12 @@ public class MyGdxGame extends ApplicationAdapter {
 		coinatual = coin2;
 	}
 
+	//Criando método para iniciar os objetos
 	private void inicializaObjetos() {
 		batch = new SpriteBatch();
 		random = new Random();
 
+		//Declarando as variáveis de posição dos canos
 		larguraDispositivo = VIRTUAL_WIDTH;
 		alturaDispositivo = VIRTUAL_HEIGHT;
 		posicaoInicialVerticalPassaro = alturaDispositivo / 2;
@@ -125,46 +131,55 @@ public class MyGdxGame extends ApplicationAdapter {
 		posicaoCoin1Vertical = alturaDispositivo/2;
 		espacoEntreCanos = 350;
 
+		//Declarando as propriedades dos textos de pontuação
 		textoPontucao = new BitmapFont();
 		textoPontucao.setColor(com.badlogic.gdx.graphics.Color.WHITE);
 		textoPontucao.getData().setScale(5);
 
+		//Declarando as propriedades dos textos de reiniciar
 		textoReiniciar = new BitmapFont();
 		textoReiniciar.setColor(com.badlogic.gdx.graphics.Color.GREEN);
 		textoReiniciar.getData().setScale(2);
 
+		//Declarando as propriedades dos textos de melhor pontuação
 		textoMelhorPontuacao = new BitmapFont();
 		textoMelhorPontuacao.setColor(com.badlogic.gdx.graphics.Color.RED);
 		textoMelhorPontuacao.getData().setScale(2);
 
+		//Declarando as formas de colisão dos objetos do jogo
 		shapeRenderer = new ShapeRenderer();
 		circuloPassaro = new Circle();
 		retanguloCanoBaixo = new Rectangle();
 		retanguloCanoCima = new Rectangle();
 		circuloCoin1 = new Circle();
 
+		//Declarando os sons das variáveis de som
 		somVoando = Gdx.audio.newSound(Gdx.files.internal("som_asa.wav"));
 		somColisao = Gdx.audio.newSound(Gdx.files.internal("som_batida.wav"));
 		somPontuacao = Gdx.audio.newSound(Gdx.files.internal("som_pontos.wav"));
 		somCoin = Gdx.audio.newSound(Gdx.files.internal("smw_coin.wav"));
 
+		//Declarando as propriedades da variáveis de preferências e pontuação
 		preferencias = Gdx.app.getPreferences("FlappyBird");
 		pontuacaoMaxima = preferencias.getInteger("pontuacaoMaxima", 0);
 
+		//Declarando as propriedades da câmera
 		camera = new OrthographicCamera();
 		camera.position.set(VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2, 0);
 		viewport = new StretchViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, camera);
 	}
 
+	//Criando método para verificar os estados do jogo
 	private void verificarEstadoJogo() {
 		boolean toqueTela = Gdx.input.justTouched();
+		//Verificando se o estado do jogo for antes de iniciar e o jogador tocar na tela, começa o jogo
 		if (estadoJogo == 0) {
 			if (toqueTela) {
 				gravidade = -15;
 				estadoJogo = 1;
 				somVoando.play();
 			}
-
+			//Verificando se o estado do jogo for depois que iniciar, aparece os canos
 		} else if (estadoJogo == 1) {
 			if (toqueTela) {
 				gravidade = -15;
@@ -173,11 +188,13 @@ public class MyGdxGame extends ApplicationAdapter {
 			posicaoCoin1Horizontal -= Gdx.graphics.getDeltaTime() * 200;
 			posicaoCanoHorizontal -= Gdx.graphics.getDeltaTime() * 200;
 
+			//ramdomizando a posição dos canos
 			if (posicaoCanoHorizontal < -canoTopo.getWidth()) {
 				posicaoCanoHorizontal = larguraDispositivo;
 				posicaoCanoVertical = random.nextInt(400) - 200;
 				passouCano = false;
 			}
+			//Se passou pelas moedas, chama o método de resetar a moeda
 			if (posicaoCoin1Horizontal <- coinatual.getWidth() / 2 * escalaCoin)
 			{
 				resetaCoin();
@@ -185,6 +202,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			if (posicaoInicialVerticalPassaro > 0 || toqueTela)
 				posicaoInicialVerticalPassaro = posicaoInicialVerticalPassaro - gravidade;
 			gravidade++;
+			//Se o player morrer, computa a pontuação máxima
 		} else if (estadoJogo == 2) {
 			if (pontos > pontuacaoMaxima) {
 				pontuacaoMaxima = pontos;
@@ -193,7 +211,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			}
 			posicaoHorizontalPassaro -= Gdx.graphics.getDeltaTime() * 500;
 
-
+			//Se tocar na tela, reiniciar a fase e os atributos
 			if (toqueTela) {
 				estadoJogo = 0;
 				pontos = 0;
@@ -205,6 +223,8 @@ public class MyGdxGame extends ApplicationAdapter {
 			}
 		}
 	}
+
+	//Criando método para detectar colisão dos objetos
 	private void detectarColisoes()
 	{
 		circuloPassaro.set(
@@ -228,14 +248,15 @@ public class MyGdxGame extends ApplicationAdapter {
 		boolean colidiuCanoBaixo = Intersector.overlaps(circuloPassaro, retanguloCanoBaixo);
 		boolean colidiuCoin1 = Intersector.overlaps(circuloPassaro, circuloCoin1);
 
+		//Verifiando se colidiu com qual moeda para dar o devido valor
 		if(colidiuCoin1 == true){
 			if(coinatual == coin1) pontos += valorCoin1;
 			else pontos += valorCoin2;
-//
 			posicaoCoin1Vertical = alturaDispositivo * 2;
 			somCoin.play();
 		}
 
+		//Se colidiu com o cano, muda de estado
 		if (colidiuCanoCima || colidiuCanoBaixo) {
 			if (estadoJogo ==1) {
 				somColisao.play();
@@ -244,6 +265,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 	}
 
+	//Criando métodoso para desenhar as texturas dos objetos
 	private void desenharTexturas()
 	{
 		batch.setProjectionMatrix(camera.combined);
@@ -257,18 +279,20 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch.draw(canoTopo, posicaoCanoHorizontal, alturaDispositivo / 2 + espacoEntreCanos / 2 + posicaoCanoVertical);
 		textoPontucao.draw(batch, String.valueOf(pontos), larguraDispositivo / 2, alturaDispositivo -110);
 
-
+		//Se o estado do jogo for antes de iniciar, aparece a logo e o texto de iniciar
 		if (estadoJogo == 0)
 		{
 			batch.draw(logo, larguraDispositivo / 2 - logo.getWidth()/2, alturaDispositivo /2);
 			textoReiniciar.draw(batch, "Toque para iniciar!", larguraDispositivo/2 -120, alturaDispositivo /2 - 10);
 		}
+		//Se o estado do jogo for depois de morrer, aparece a tela de game over o texto de reiniciar
 		if(estadoJogo == 2)
 		{
 			batch.draw(gameOver, larguraDispositivo / 2 - gameOver.getWidth()/2, alturaDispositivo /2);
 			textoReiniciar.draw(batch, "Toque para reiniciar!", larguraDispositivo/2 -140, alturaDispositivo /2 - gameOver.getHeight()/2);
 			textoMelhorPontuacao.draw(batch,"Seu record é: "+ pontuacaoMaxima+" pontos", larguraDispositivo/2 -140,alturaDispositivo/2 - gameOver.getHeight());
 		}
+		//Se o estado do jogo for durante a gameplay, aparece as moedas
 		if (estadoJogo == 1){
 			batch.draw(coinatual, posicaoCoin1Horizontal - (coinatual.getWidth() * escalaCoin),
 					posicaoCoin1Vertical - (coinatual.getWidth() * escalaCoin),
@@ -277,8 +301,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 		batch.end();
 	}
-	//asmndnoiasd
 
+	//Criando método para validar ponto
 	private void validarPontos()
 	{
 		if(posicaoCanoHorizontal < 50-passaros[0].getWidth())
@@ -290,14 +314,12 @@ public class MyGdxGame extends ApplicationAdapter {
 				somPontuacao.play();
 			}
 		}
-
-
 		variacao += Gdx.graphics.getDeltaTime()*10;
-
 		if(variacao > 3)
 			variacao = 0;
 	}
 
+	//Criando método para resetar a moeda assim que pegar a anterior
 	private void resetaCoin() {
 		posicaoCoin1Horizontal = posicaoCanoHorizontal + canoBaixo.getWidth() + coinatual.getWidth() +
 				random.nextInt((int) (larguraDispositivo - (coinatual.getWidth() * escalaCoin)));
@@ -312,6 +334,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 	}
 
+	//Reescrevendo o método da dimensão da tela
 	@Override
 	public void resize(int width, int height)
 	{viewport.update(width,height);}
