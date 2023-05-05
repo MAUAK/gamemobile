@@ -208,7 +208,7 @@ public class MyGdxGame extends ApplicationAdapter {
 				estadoJogo = 2;
 			}
 
-			if(pontos > 2)
+			if(pontos > 20)
 			{
 				espacoEntreCanos = 220;
 			}
