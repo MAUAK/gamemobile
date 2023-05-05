@@ -59,6 +59,7 @@ O usúario deverá baixar e abrir o aplicativo, e clicar na tela para o pássaro
 ![image](https://user-images.githubusercontent.com/83432308/236356147-34a51681-6060-4e14-a97d-93c63a478dca.png)
 ![image](https://user-images.githubusercontent.com/83432308/236356171-91f70838-447e-4701-91de-05ad3ea83663.png)
 ![image](https://user-images.githubusercontent.com/83432308/236356307-197eb88b-20bb-42e6-ae9a-909a9996e34b.png)
+![image](https://user-images.githubusercontent.com/83432308/236356352-77162540-68e4-456f-b886-fc7dfa75a537.png)
 
 
 ## Banco de Dados 🗂️
