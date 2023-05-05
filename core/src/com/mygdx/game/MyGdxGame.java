@@ -203,6 +203,15 @@ public class MyGdxGame extends ApplicationAdapter {
 				posicaoInicialVerticalPassaro = posicaoInicialVerticalPassaro - gravidade;
 			gravidade++;
 			//Se o player morrer, computa a pontuação máxima
+
+			if (posicaoInicialVerticalPassaro < 0 || posicaoInicialVerticalPassaro > alturaDispositivo) {
+				estadoJogo = 2;
+			}
+
+			if(pontos > 2)
+			{
+				espacoEntreCanos = 220;
+			}
 		} else if (estadoJogo == 2) {
 			if (pontos > pontuacaoMaxima) {
 				pontuacaoMaxima = pontos;
@@ -220,6 +229,7 @@ public class MyGdxGame extends ApplicationAdapter {
 				posicaoInicialVerticalPassaro = alturaDispositivo / 2;
 				posicaoCanoHorizontal = larguraDispositivo;
 				resetaCoin();
+				espacoEntreCanos = 350;
 			}
 		}
 	}
