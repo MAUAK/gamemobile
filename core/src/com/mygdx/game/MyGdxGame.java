@@ -221,9 +221,9 @@ public class MyGdxGame extends Game {
 			{
 				espacoEntreCanos = 220;
 			}
-			else if (pontos > 40){
+			/*else if (pontos > 40){
 				speed = 500;
-			}
+			}*/
 		} else if (estadoJogo == 2) {
 			if (pontos > pontuacaoMaxima) {
 				pontuacaoMaxima = pontos;
