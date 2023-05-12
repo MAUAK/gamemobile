@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Sound;
@@ -16,9 +17,13 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import com.mygdx.game.Splash;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.ApplicationListener;
+
 import java.util.Random;
 
-public class MyGdxGame extends ApplicationAdapter {
+public class MyGdxGame extends Game {
 	//Criando variáveis de textura
 	private SpriteBatch batch;
 	private Texture[] passaros;
@@ -30,6 +35,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	private Texture coin1;
 	private Texture coin2;
 	private Texture coinatual;
+	private int speed = 200;
 
 	//Criando variáveis de colisão
 	private ShapeRenderer shapeRenderer;
@@ -84,8 +90,11 @@ public class MyGdxGame extends ApplicationAdapter {
 	//reescrevendo o método para iniciar as texturas e objetos
 	@Override
 	public void create() {
+
+		//setScreen(new Splash(this));
 		inicializarTexturas();
 		inicializaObjetos();
+
 	}
 
 	//reescrevendo o método para iniciar os métodos restantes
@@ -185,8 +194,8 @@ public class MyGdxGame extends ApplicationAdapter {
 				gravidade = -15;
 				somVoando.play();
 			}
-			posicaoCoin1Horizontal -= Gdx.graphics.getDeltaTime() * 200;
-			posicaoCanoHorizontal -= Gdx.graphics.getDeltaTime() * 200;
+			posicaoCoin1Horizontal -= Gdx.graphics.getDeltaTime() * speed;
+			posicaoCanoHorizontal -= Gdx.graphics.getDeltaTime() * speed;
 
 			//ramdomizando a posição dos canos
 			if (posicaoCanoHorizontal < -canoTopo.getWidth()) {
@@ -208,9 +217,12 @@ public class MyGdxGame extends ApplicationAdapter {
 				estadoJogo = 2;
 			}
 
-			if(pontos > 20)
+			if(pontos > 20 && pontos < 40)
 			{
 				espacoEntreCanos = 220;
+			}
+			else if (pontos > 40){
+				speed = 500;
 			}
 		} else if (estadoJogo == 2) {
 			if (pontos > pontuacaoMaxima) {
